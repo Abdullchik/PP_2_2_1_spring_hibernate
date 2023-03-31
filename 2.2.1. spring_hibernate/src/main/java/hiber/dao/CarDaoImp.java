@@ -29,7 +29,7 @@ public class CarDaoImp implements CarDao {
     @Override
     public User get(String model, Integer series) {
         return sessionFactory.getCurrentSession()
-                .createQuery("from User where id in (select c.id from Car c where c.model = :m and c.series = :s)", User.class)
+                .createQuery("from User where id in (select id from Car  where model = :m and series = :s)", User.class)
                 .setParameter("m", model)
                 .setParameter("s", series)
                 .setMaxResults(1)
