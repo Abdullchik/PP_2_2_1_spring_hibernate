@@ -28,13 +28,12 @@ public class CarDaoImp implements CarDao {
 
     @Override
     public User get(String model, Integer series) {
-        String carHql = "from Car where model=:m and series=:s";
-        String userHql = "from User where id=:id";
-        TypedQuery<Car> carQuery = sessionFactory.getCurrentSession().createQuery(carHql ,Car.class);
-        carQuery.setParameter("m", model).setParameter("s", series);
-        TypedQuery<User> userQuery = sessionFactory.getCurrentSession().createQuery(userHql ,User.class);
-        userQuery.setParameter("id", carQuery.getResultList().get(0).getId());
-        return userQuery.getSingleResult();
+        return sessionFactory.getCurrentSession()
+                .createQuery("from User where id in (select c.id from Car c where c.model = :m and c.series = :s)", User.class)
+                .setParameter("m", model)
+                .setParameter("s", series)
+                .setMaxResults(1)
+                .getSingleResult();
     }
 
 }
