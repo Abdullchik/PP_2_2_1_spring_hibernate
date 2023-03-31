@@ -25,13 +25,8 @@ public class Car {
     @Column(name = "series")
     private Integer series;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    public Car (String model, Integer series, User user) {
+    public Car (String model, Integer series) {
         this.series = series;
         this.model = model;
-        this.user = user;
     }
 }
